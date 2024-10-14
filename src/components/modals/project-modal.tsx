@@ -53,6 +53,7 @@ export const ProjectModal = () => {
     try {
       setIsLoading(true);
       const newProject = await createProject({ title: values.title });
+      projectModal.onClose();
       router.push(`/${newProject}`);
     } catch (error) {
       // TODO: add toast
