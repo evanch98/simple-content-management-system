@@ -54,7 +54,7 @@ export const ProjectSwitcher = ({
       open={open}
       onOpenChange={setOpen}
     >
-      <PopoverTrigger>
+      <PopoverTrigger asChild>
         <Button
           variant="outline"
           role="combobox"
