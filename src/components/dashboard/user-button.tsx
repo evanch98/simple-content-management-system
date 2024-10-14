@@ -1,3 +1,5 @@
+'use client';
+
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import {
@@ -6,6 +8,7 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { useAuthActions } from '@convex-dev/auth/react';
+import { useRouter } from 'next/navigation';
 
 interface UserButtonProps {
   profileUrl?: string;
@@ -18,6 +21,13 @@ export const UserButton = ({
 }: UserButtonProps) => {
   const initials = profileName.substring(0, 2).toUpperCase();
   const { signOut } = useAuthActions();
+
+  const router = useRouter();
+
+  const handleSignOut = () => {
+    signOut();
+    router.replace('/auth');
+  };
 
   return (
     <Popover>
@@ -32,7 +42,7 @@ export const UserButton = ({
         side="left"
       >
         <Button
-          onClick={() => void signOut()}
+          onClick={handleSignOut}
           variant="outline"
           className="w-full"
         >
