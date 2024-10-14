@@ -22,14 +22,14 @@ export const UserButton = ({
   return (
     <Popover>
       <PopoverTrigger>
-        <Avatar>
+        <Avatar className="size-8">
           <AvatarImage src={profileUrl} />
           <AvatarFallback>{initials}</AvatarFallback>
         </Avatar>
       </PopoverTrigger>
       <PopoverContent
         className="w-36 p-1"
-        side="bottom"
+        side="left"
       >
         <Button
           onClick={() => void signOut()}
