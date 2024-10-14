@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import './globals.css';
 import { ConvexAuthNextjsServerProvider } from '@convex-dev/auth/nextjs/server';
-import { ConvexClientProvider } from './convex-client-provider';
+import { ConvexClientProvider } from '../providers/convex-client-provider';
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
