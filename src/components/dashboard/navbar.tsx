@@ -8,6 +8,8 @@ import Link from 'next/link';
 import { useParams, usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { ProjectSwitcher } from './project-switcher';
+import { RouteType } from '@/types';
+import { MobileNavbar } from './mobile-navbar';
 
 export const Navbar = () => {
   const user = useQuery(api.users.currentUser);
@@ -16,7 +18,7 @@ export const Navbar = () => {
   const pathname = usePathname();
   const params = useParams();
 
-  const routes = [
+  const routes: RouteType[] = [
     {
       href: `/${params.projectId}`,
       label: 'Dashboard',
@@ -45,7 +47,11 @@ export const Navbar = () => {
 
   return (
     <nav className="flex w-full items-center justify-between py-2">
-      <div className="flex items-center gap-x-6">
+      <MobileNavbar
+        routes={routes}
+        projects={projects}
+      />
+      <div className="hidden items-center gap-x-3 md:flex md:gap-x-6">
         <ProjectSwitcher projects={projects} />
         {routes.map((route) => (
           <Link
