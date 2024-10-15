@@ -23,6 +23,11 @@ export const Navbar = () => {
       active: pathname === `/${params.projectId}`,
     },
     {
+      href: `/${params.projectId}/media`,
+      label: 'Media',
+      active: pathname === `/${params.projectId}/media`,
+    },
+    {
       href: `/${params.projectId}/settings`,
       label: 'Settings',
       active: pathname === `/${params.projectId}/settings`,
