@@ -1,5 +1,6 @@
 'use client';
 
+import { PageCreateModal } from '@/components/modals/page-create-modal';
 import { ProjectModal } from '@/components/modals/project-modal';
 import { useEffect, useState } from 'react';
 
@@ -17,6 +18,7 @@ export const ModalProvider = () => {
   return (
     <>
       <ProjectModal />
+      <PageCreateModal />
     </>
   );
 };
