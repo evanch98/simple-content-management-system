@@ -21,7 +21,7 @@ export const Navbar = () => {
   const routes: RouteType[] = [
     {
       href: `/${params.projectId}`,
-      label: 'Dashboard',
+      label: 'Pages',
       active: pathname === `/${params.projectId}`,
     },
     {
