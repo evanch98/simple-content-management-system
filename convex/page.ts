@@ -47,3 +47,52 @@ export const get = query({
     return page;
   },
 });
+
+export const remove = mutation({
+  args: { id: v.id('pages') },
+  handler: async (ctx, args) => {
+    const userId = await getAuthUserId(ctx);
+
+    if (!userId) {
+      throw new Error('Not authenticated');
+    }
+
+    const page = await ctx.db.get(args.id);
+
+    if (!page) {
+      throw new Error('Not found');
+    }
+
+    if (page.userId !== userId) {
+      throw new Error('Unauthorized');
+    }
+
+    await ctx.db.delete(args.id);
+  },
+});
+
+export const update = mutation({
+  args: { id: v.id('pages'), title: v.string() },
+  handler: async (ctx, args) => {
+    const userId = await getAuthUserId(ctx);
+
+    if (!userId) {
+      throw new Error('Not authenticated');
+    }
+
+    const page = await ctx.db.get(args.id);
+
+    if (!page) {
+      throw new Error('Not found');
+    }
+
+    if (page.userId !== userId) {
+      throw new Error('Unauthorized');
+    }
+
+    await ctx.db.patch(args.id, {
+      title: args.title,
+      updatedAt: Date.now(),
+    });
+  },
+});
