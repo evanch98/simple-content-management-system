@@ -10,6 +10,7 @@ import { cn } from '@/lib/utils';
 import { ProjectSwitcher } from './project-switcher';
 import { RouteType } from '@/types';
 import { MobileNavbar } from './mobile-navbar';
+import { ModeToggle } from '@/components/ui/mode-toggle';
 
 export const Navbar = () => {
   const user = useQuery(api.users.currentUser);
@@ -66,10 +67,13 @@ export const Navbar = () => {
           </Link>
         ))}
       </div>
-      <UserButton
-        profileUrl={user?.image}
-        profileName={user?.name}
-      />
+      <div className="flex items-center gap-x-2">
+        <ModeToggle />
+        <UserButton
+          profileUrl={user?.image}
+          profileName={user?.name}
+        />
+      </div>
     </nav>
   );
 };
