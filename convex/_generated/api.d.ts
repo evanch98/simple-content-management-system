@@ -21,6 +21,8 @@ import type * as page from "../page.js";
 import type * as pages from "../pages.js";
 import type * as project from "../project.js";
 import type * as projects from "../projects.js";
+import type * as section from "../section.js";
+import type * as sections from "../sections.js";
 import type * as users from "../users.js";
 
 /**
@@ -38,6 +40,8 @@ declare const fullApi: ApiFromModules<{
   pages: typeof pages;
   project: typeof project;
   projects: typeof projects;
+  section: typeof section;
+  sections: typeof sections;
   users: typeof users;
 }>;
 export declare const api: FilterApi<
