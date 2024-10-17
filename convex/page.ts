@@ -21,6 +21,14 @@ export const create = mutation({
       updatedAt: Date.now(),
     });
 
+    await ctx.db.insert('sections', {
+      name: 'Default',
+      userId: userId,
+      projectId: args.projectId,
+      pageId: page,
+      updatedAt: Date.now(),
+    });
+
     return page;
   },
 });
