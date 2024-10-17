@@ -57,6 +57,7 @@ export const PageCreateModal = () => {
         title: values.title,
         projectId: params.projectId as Id<'projects'>,
       });
+      form.reset();
       onClose();
     } catch (error) {
       // TODO: add toast
