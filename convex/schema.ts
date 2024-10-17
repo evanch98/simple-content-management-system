@@ -18,7 +18,7 @@ const schema = defineSchema({
     .index('by_project', ['projectId'])
     .index('by_user_project', ['userId', 'projectId']),
   sections: defineTable({
-    type: v.string(),
+    name: v.string(),
     pageId: v.id('pages'),
     projectId: v.id('projects'),
     userId: v.id('users'),
