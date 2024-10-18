@@ -25,6 +25,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { useSectionEditModal } from '@/store/use-section-edit-modal';
+import { toast } from 'sonner';
 
 const formSchema = z.object({
   name: z
@@ -63,8 +64,9 @@ export const SectionEditModal = () => {
         id,
       });
       onClose();
+      toast('Successfully updated the section.');
     } catch (error) {
-      // TODO: add toast
+      toast('Something went wrong! Please try again.');
     } finally {
       setIsLoading(false);
     }

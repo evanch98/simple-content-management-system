@@ -26,6 +26,7 @@ import {
 import { api } from '../../../convex/_generated/api';
 import { Id } from '../../../convex/_generated/dataModel';
 import { useSectionCreateModal } from '@/store/use-section-create-modal';
+import { toast } from 'sonner';
 
 const formSchema = z.object({
   name: z
@@ -56,8 +57,9 @@ export const SectionCreateModal = () => {
       });
       form.reset();
       onClose();
+      toast('Successfully created a new section.');
     } catch (error) {
-      // TODO: add toast
+      toast('Something went wrong! Please try again.');
     }
   };
 

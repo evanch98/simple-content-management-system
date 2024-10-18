@@ -21,6 +21,7 @@ import { SectionSwitcher } from '@/components/dashboard/section-switcher';
 import { TbNewSection } from 'react-icons/tb';
 import { useSectionCreateModal } from '@/store/use-section-create-modal';
 import { useSectionEditModal } from '@/store/use-section-edit-modal';
+import { toast } from 'sonner';
 
 const Page = () => {
   const params = useParams();
@@ -62,8 +63,9 @@ const Page = () => {
     try {
       setIsDeleting(true);
       await deletePage({ id: page._id });
+      toast('Successfully deleted the page.');
     } catch (e) {
-      // TODO: add toast
+      toast('Something went wrong! Please try again.');
     } finally {
       setIsDeleting(false);
     }
@@ -73,14 +75,14 @@ const Page = () => {
 
   const onDeleteSection = async () => {
     if (currentSection.name === 'Default') {
-      // TODO: add toast
-      return;
+      return toast('Cannot remove this section.');
     }
     try {
       setCurrentSectionIndex(0);
       await deleteSection({ id: currentSection._id });
+      toast('Successfully removed the section.');
     } catch (e) {
-      // TODO: add toast
+      toast('Something went wrong! Please try again.');
     }
   };
 
@@ -142,8 +144,7 @@ const Page = () => {
                     size="sm"
                     onClick={() => {
                       if (currentSection.name === 'Default') {
-                        // TODO: Toast
-                        return;
+                        return toast('Cannot change the name of this section.');
                       }
                       sectionEditModal.onOpen(
                         currentSection.name,
