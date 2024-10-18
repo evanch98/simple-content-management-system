@@ -1,6 +1,7 @@
 import { v } from 'convex/values';
 import { mutation, query } from './_generated/server';
 import { getAuthUserId } from '@convex-dev/auth/server';
+import { api } from './_generated/api';
 
 export const create = mutation({
   args: {
@@ -74,6 +75,15 @@ export const remove = mutation({
     if (page.userId !== userId) {
       throw new Error('Unauthorized');
     }
+
+    const sections = await ctx.runQuery(api.sections.get, {
+      pageId: page._id,
+      projectId: page.projectId,
+    });
+
+    sections.map(async (section) => {
+      await ctx.db.delete(section._id);
+    });
 
     await ctx.db.delete(args.id);
   },
