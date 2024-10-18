@@ -5,6 +5,7 @@ import { ConvexAuthNextjsServerProvider } from '@convex-dev/auth/nextjs/server';
 import { ConvexClientProvider } from '../providers/convex-client-provider';
 import { ModalProvider } from '@/providers/modal-provider';
 import { ThemeProvider } from '@/providers/theme-provider';
+import { Toaster } from '@/components/ui/sonner';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -29,6 +30,7 @@ export default function RootLayout({
             <ConvexClientProvider>
               <ModalProvider />
               {children}
+              <Toaster />
             </ConvexClientProvider>
           </ThemeProvider>
         </body>
