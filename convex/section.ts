@@ -15,6 +15,10 @@ export const create = mutation({
       throw new Error('Not authenticated');
     }
 
+    if (args.name === 'Default') {
+      throw new Error('"Default" is not allowed to be used.');
+    }
+
     const section = await ctx.db.insert('sections', {
       name: args.name,
       userId: userId,
