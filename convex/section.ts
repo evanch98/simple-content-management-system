@@ -55,3 +55,52 @@ export const get = query({
     return section;
   },
 });
+
+export const remove = mutation({
+  args: { id: v.id('sections') },
+  handler: async (ctx, args) => {
+    const userId = await getAuthUserId(ctx);
+
+    if (!userId) {
+      throw new Error('Not authenticated');
+    }
+
+    const section = await ctx.db.get(args.id);
+
+    if (!section) {
+      throw new Error('Not found');
+    }
+
+    if (section.userId !== userId) {
+      throw new Error('Unauthorized');
+    }
+
+    await ctx.db.delete(args.id);
+  },
+});
+
+export const edit = mutation({
+  args: { id: v.id('sections'), name: v.string() },
+  handler: async (ctx, args) => {
+    const userId = await getAuthUserId(ctx);
+
+    if (!userId) {
+      throw new Error('Not authenticated');
+    }
+
+    const section = await ctx.db.get(args.id);
+
+    if (!section) {
+      throw new Error('Not found');
+    }
+
+    if (section.userId !== userId) {
+      throw new Error('Unauthorized');
+    }
+
+    await ctx.db.patch(args.id, {
+      name: args.name,
+      updatedAt: Date.now(),
+    });
+  },
+});
