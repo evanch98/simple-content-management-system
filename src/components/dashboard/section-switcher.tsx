@@ -17,6 +17,7 @@ import { TbSection } from 'react-icons/tb';
 import { Doc } from '../../../convex/_generated/dataModel';
 import { cn } from '@/lib/utils';
 import { Check, ChevronsUpDown } from 'lucide-react';
+import { toast } from 'sonner';
 
 interface SectionSwitcherProps {
   sections: Doc<'sections'>[];
@@ -39,6 +40,7 @@ export const SectionSwitcher = ({
   const onSectionSelect = (currentIndex: number) => {
     setOpen(false);
     setCurrentSectionIndex(currentIndex);
+    toast(`Switched to the ${sections[currentIndex].name} section.`);
   };
 
   return (
