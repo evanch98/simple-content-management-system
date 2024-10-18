@@ -98,6 +98,10 @@ export const update = mutation({
       throw new Error('Unauthorized');
     }
 
+    if (section.name === 'Default') {
+      throw new Error('Cannot change the name of this section.');
+    }
+
     await ctx.db.patch(args.id, {
       name: args.name,
       updatedAt: Date.now(),
