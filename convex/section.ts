@@ -79,7 +79,7 @@ export const remove = mutation({
   },
 });
 
-export const edit = mutation({
+export const update = mutation({
   args: { id: v.id('sections'), name: v.string() },
   handler: async (ctx, args) => {
     const userId = await getAuthUserId(ctx);
