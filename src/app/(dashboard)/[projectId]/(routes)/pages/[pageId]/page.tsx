@@ -22,6 +22,8 @@ import { TbNewSection } from 'react-icons/tb';
 import { useSectionCreateModal } from '@/store/use-section-create-modal';
 import { useSectionEditModal } from '@/store/use-section-edit-modal';
 import { toast } from 'sonner';
+import { SectionPreview } from '@/components/dashboard/section-preview';
+import { Separator } from '@/components/ui/separator';
 
 const Page = () => {
   const params = useParams();
@@ -105,7 +107,7 @@ const Page = () => {
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
-      <div className="flex h-full flex-col items-end gap-y-2">
+      <div className="flex h-full flex-col items-end gap-y-4">
         <div className="flex gap-x-2">
           <DeleteAlertDialog
             onConfirm={onDeletePage}
@@ -127,8 +129,9 @@ const Page = () => {
             Edit page
           </Button>
         </div>
+        <Separator />
         <div className="flex h-full w-full items-start gap-x-4">
-          <div className="flex w-[35%] flex-col gap-y-8">
+          <div className="flex w-[35%] flex-col gap-y-8 pt-[24px]">
             <form className="grid w-full items-start gap-1">
               <fieldset className="flex flex-col gap-1 rounded-lg border p-4 pb-2">
                 <legend className="-ml-1 text-sm font-medium">Sections</legend>
@@ -180,7 +183,9 @@ const Page = () => {
               </fieldset>
             </form>
           </div>
-          <div className="h-full w-full rounded-md bg-muted" />
+          <div className="hidden h-full w-full flex-col items-center justify-center lg:flex">
+            <SectionPreview currentSection={currentSection} />
+          </div>
         </div>
       </div>
     </main>
