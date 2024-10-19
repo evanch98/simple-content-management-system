@@ -29,7 +29,29 @@ const schema = defineSchema({
     .index('by_user_project_page', ['userId', 'projectId', 'pageId']),
   components: defineTable({
     sectionId: v.id('sections'),
-  }),
+    pageId: v.id('pages'),
+    projectId: v.id('projects'),
+    userId: v.id('users'),
+    updatedAt: v.number(),
+    type: v.union(
+      v.literal('Button'),
+      v.literal('Card'),
+      v.literal('Image'),
+      v.literal('Text'),
+      v.literal('TextBlock'),
+    ),
+    content: v.record(v.string(), v.string()),
+  })
+    .index('by_section', ['sectionId'])
+    .index('by_page_section', ['pageId', 'sectionId'])
+    .index('by_project_page_section', ['projectId', 'pageId', 'sectionId'])
+    .index('by_user_project_page_section', [
+      'userId',
+      'projectId',
+      'pageId',
+      'sectionId',
+    ])
+    .index('by_section_type', ['sectionId', 'type']),
 });
 
 export default schema;
