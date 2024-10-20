@@ -1,5 +1,6 @@
 'use client';
 
+import { ComponentCreateModal } from '@/components/modals/component-create-modal';
 import { PageCreateModal } from '@/components/modals/page-create-modal';
 import { PageEditModal } from '@/components/modals/page-edit-modal';
 import { ProjectModal } from '@/components/modals/project-modal';
@@ -25,6 +26,7 @@ export const ModalProvider = () => {
       <PageEditModal />
       <SectionCreateModal />
       <SectionEditModal />
+      <ComponentCreateModal />
     </>
   );
 };
