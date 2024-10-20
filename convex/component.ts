@@ -16,7 +16,9 @@ export const create = mutation({
       v.union(
         v.string(),
         v.array(v.string()),
-        v.array(v.object({ content: v.string(), href: v.string() })),
+        v.array(
+          v.object({ content: v.string(), href: v.optional(v.string()) }),
+        ),
       ),
     ),
     sectionId: v.id('sections'),

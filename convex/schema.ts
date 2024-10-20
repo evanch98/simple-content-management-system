@@ -45,7 +45,9 @@ const schema = defineSchema({
       v.union(
         v.string(),
         v.array(v.string()),
-        v.array(v.object({ content: v.string(), href: v.string() })),
+        v.array(
+          v.object({ content: v.string(), href: v.optional(v.string()) }),
+        ),
       ),
     ),
   })
