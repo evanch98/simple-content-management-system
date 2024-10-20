@@ -1,11 +1,11 @@
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Doc } from '../../../convex/_generated/dataModel';
 import { Info, Monitor, Smartphone, Tablet } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useState } from 'react';
+import { ButtonPreview } from '@/components/dashboard/preview/button-preview';
 
 interface SectionPreviewProps {
   currentSection: Doc<'sections'>;
@@ -73,9 +73,10 @@ export const SectionPreview = ({
             {components.map((component) => {
               if (component.type === 'Button') {
                 return (
-                  <Button key={component._id}>
-                    {component.content.content}
-                  </Button>
+                  <ButtonPreview
+                    content={component.content.content as string}
+                    key={component._id}
+                  />
                 );
               }
             })}
