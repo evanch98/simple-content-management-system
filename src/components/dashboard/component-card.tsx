@@ -49,15 +49,16 @@ export const ComponentCard = ({ component }: ComponentCardProps) => {
                         <span
                           className={cn(
                             'ml-0.5',
-                            !component.content[item] ||
-                              (component.content[item].length === 0 &&
-                                `text-destructive ${GeistMono.className}`),
+                            (!component.content[item] ||
+                              component.content[item].length === 0) &&
+                              `text-destructive ${GeistMono.className}`,
                           )}
                         >
                           {typeof component.content[item] === 'string'
-                            ? component.content[item]
-                            : !component.content[item] ||
-                                component.content[item].length === 0
+                            ? !component.content[item]
+                              ? 'undefined'
+                              : component.content[item]
+                            : component.content[item].length === 0
                               ? 'undefined'
                               : component.content[item].map(
                                   (innerContent, index) => (
