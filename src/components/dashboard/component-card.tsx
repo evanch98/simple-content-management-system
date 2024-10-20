@@ -39,23 +39,37 @@ export const ComponentCard = ({ component }: ComponentCardProps) => {
                   Content
                 </h1>
                 <div className="flex flex-col gap-y-1">
-                  {content.map((item) => (
-                    <p
-                      key={item}
-                      className="text-xs font-medium"
-                    >
-                      <span>{item}:</span>
-                      <span
-                        className={cn(
-                          'ml-0.5',
-                          !component.content[item] &&
-                            `text-destructive ${GeistMono.className}`,
-                        )}
+                  {content.map((item) => {
+                    return (
+                      <p
+                        key={item}
+                        className="text-xs font-medium"
                       >
-                        {component.content[item] || 'undefined'}
-                      </span>
-                    </p>
-                  ))}
+                        <span>{item}:</span>
+                        <span
+                          className={cn(
+                            'ml-0.5',
+                            !component.content[item] ||
+                              (component.content[item].length === 0 &&
+                                `text-destructive ${GeistMono.className}`),
+                          )}
+                        >
+                          {typeof component.content[item] === 'string'
+                            ? component.content[item]
+                            : !component.content[item] ||
+                                component.content[item].length === 0
+                              ? 'undefined'
+                              : component.content[item].map(
+                                  (innerContent, index) => (
+                                    <span key={`${innerContent}-${index}`}>
+                                      {innerContent.toString()}
+                                    </span>
+                                  ),
+                                )}
+                        </span>
+                      </p>
+                    );
+                  })}
                 </div>
               </div>
             </HoverCardContent>
