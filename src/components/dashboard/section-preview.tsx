@@ -1,16 +1,21 @@
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Doc } from '../../../convex/_generated/dataModel';
-import { Monitor, Smartphone, Tablet } from 'lucide-react';
+import { Info, Monitor, Smartphone, Tablet } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useState } from 'react';
 
 interface SectionPreviewProps {
   currentSection: Doc<'sections'>;
+  components: Doc<'components'>[];
 }
 
-export const SectionPreview = ({ currentSection }: SectionPreviewProps) => {
+export const SectionPreview = ({
+  currentSection,
+  components,
+}: SectionPreviewProps) => {
   const [value, setValue] = useState('large');
 
   return (
@@ -51,12 +56,30 @@ export const SectionPreview = ({ currentSection }: SectionPreviewProps) => {
         </div>
         <div
           className={cn(
-            'flex h-full w-full flex-col items-center justify-center rounded-md border border-border',
+            'flex h-full w-full flex-col rounded-md border border-border p-4',
             value === 'medium' && 'max-w-screen-md',
             value === 'small' && 'max-w-80',
           )}
         >
-          {currentSection.name}
+          <p className="flex items-center text-xs">
+            <Info className="mr-1 size-3" />
+            This is a rough preview of the{' '}
+            <span className="mx-1 font-semibold">
+              {currentSection.name}
+            </span>{' '}
+            section. The actual style depends on your website design.
+          </p>
+          <div className="-mt-4 flex h-full w-full flex-col items-center justify-center">
+            {components.map((component) => {
+              if (component.type === 'Button') {
+                return (
+                  <Button key={component._id}>
+                    {component.content.content}
+                  </Button>
+                );
+              }
+            })}
+          </div>
         </div>
       </div>
     </Tabs>
