@@ -40,7 +40,14 @@ const schema = defineSchema({
       v.literal('Text'),
       v.literal('TextBlock'),
     ),
-    content: v.record(v.string(), v.union(v.string(), v.array(v.string()))),
+    content: v.record(
+      v.string(),
+      v.union(
+        v.string(),
+        v.array(v.string()),
+        v.array(v.object({ content: v.string(), href: v.string() })),
+      ),
+    ),
   })
     .index('by_section', ['sectionId'])
     .index('by_page_section', ['pageId', 'sectionId'])

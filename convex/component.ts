@@ -11,7 +11,14 @@ export const create = mutation({
       v.literal('Text'),
       v.literal('TextBlock'),
     ),
-    content: v.record(v.string(), v.union(v.string(), v.array(v.string()))),
+    content: v.record(
+      v.string(),
+      v.union(
+        v.string(),
+        v.array(v.string()),
+        v.array(v.object({ content: v.string(), href: v.string() })),
+      ),
+    ),
     sectionId: v.id('sections'),
     pageId: v.id('pages'),
     projectId: v.id('projects'),
