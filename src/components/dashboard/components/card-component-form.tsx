@@ -196,8 +196,8 @@ export const CardComponentForm = ({
               Add Image
             </Button>
           </div>
-          <div>
-            <FormLabel>Buttons</FormLabel>
+          <div className="space-y-2">
+            <FormLabel className="mr-2">Buttons</FormLabel>
             {buttonFields.map((field, index) => (
               <div
                 key={field.id}
@@ -233,29 +233,27 @@ export const CardComponentForm = ({
                     </FormItem>
                   )}
                 />
-                <div className="flex flex-col items-center gap-2 sm:flex-row">
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    onClick={() => appendButton({ content: '', href: '' })}
-                  >
-                    <PlusCircle className="mr-2 size-3.5" />
-                    Add Button
-                  </Button>
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    onClick={() => removeButton(index)}
-                    className="text-destructive"
-                  >
-                    <X className="mr-2 size-3.5" />
-                    Remove Button
-                  </Button>
-                </div>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => removeButton(index)}
+                  className="text-destructive"
+                >
+                  <X className="mr-2 size-3.5" />
+                  Remove Button
+                </Button>
               </div>
             ))}
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={() => appendButton({ content: '', href: '' })}
+            >
+              <PlusCircle className="mr-2 size-3.5" />
+              Add Button
+            </Button>
           </div>
         </form>
       </Form>
