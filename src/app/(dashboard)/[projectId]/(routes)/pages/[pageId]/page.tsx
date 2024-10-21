@@ -24,6 +24,8 @@ import { useSectionEditModal } from '@/store/use-section-edit-modal';
 import { toast } from 'sonner';
 import { SectionPreview } from '@/components/dashboard/section-preview';
 import { Separator } from '@/components/ui/separator';
+import { ComponentDropdown } from '@/components/dashboard/component-dropdown';
+import { ComponentCard } from '@/components/dashboard/component-card';
 
 const Page = () => {
   const params = useParams();
@@ -46,6 +48,11 @@ const Page = () => {
     pageId: params.pageId as Id<'pages'>,
   });
   const deleteSection = useMutation(api.section.remove);
+  const components = useQuery(api.components.get, {
+    projectId: params.projectId as Id<'projects'>,
+    pageId: params.pageId as Id<'pages'>,
+    sectionId: sections?.[currentSectionIndex]._id!,
+  });
 
   useEffect(() => {
     if (isDeleting) {
@@ -53,7 +60,12 @@ const Page = () => {
     }
   }, [isDeleting, project?._id, router]);
 
-  if (project === undefined || page === undefined || sections === undefined) {
+  if (
+    project === undefined ||
+    page === undefined ||
+    sections === undefined ||
+    components === undefined
+  ) {
     return (
       <main className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
         <Loader className="size-4 animate-spin" />
@@ -131,10 +143,10 @@ const Page = () => {
         </div>
         <Separator />
         <div className="flex h-full w-full items-start gap-x-4">
-          <div className="flex w-[35%] flex-col gap-y-8 pt-[24px]">
+          <div className="flex h-full w-[35%] flex-col gap-y-2 pt-[24px]">
             <form className="grid w-full items-start gap-1">
               <fieldset className="flex flex-col gap-1 rounded-lg border p-4 pb-2">
-                <legend className="-ml-1 text-sm font-medium">Sections</legend>
+                <legend className="-ml-1 text-xs font-medium">Sections</legend>
                 <div className="flex gap-2">
                   <SectionSwitcher
                     sections={sections}
@@ -182,9 +194,41 @@ const Page = () => {
                 </DeleteAlertDialog>
               </fieldset>
             </form>
+            <form className="grid h-full w-full items-start gap-1">
+              <fieldset className="flex h-full flex-col gap-2 rounded-lg border px-4 py-1">
+                <legend className="-ml-1 text-xs font-medium">
+                  Components
+                </legend>
+                <div className="flex w-full justify-end">
+                  <ComponentDropdown
+                    pageId={page._id}
+                    sectionId={currentSection._id}
+                  />
+                </div>
+                {components?.length === 0 ? (
+                  <div className="flex h-full flex-col items-center justify-center gap-y-2">
+                    <p className="text-center text-xs text-muted-foreground">
+                      You haven&apos;t added any component for this section.
+                    </p>
+                  </div>
+                ) : (
+                  <div className="space-y-2">
+                    {components.map((component) => (
+                      <ComponentCard
+                        key={component._id}
+                        component={component}
+                      />
+                    ))}
+                  </div>
+                )}
+              </fieldset>
+            </form>
           </div>
           <div className="hidden h-full w-full flex-col items-center justify-center lg:flex">
-            <SectionPreview currentSection={currentSection} />
+            <SectionPreview
+              currentSection={currentSection}
+              components={components}
+            />
           </div>
         </div>
       </div>
