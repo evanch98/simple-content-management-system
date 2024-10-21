@@ -22,7 +22,7 @@ export const cardFormSchema = z.object({
   title: z
     .string()
     .min(1, { message: 'Content should be at least 1 character.' })
-    .max(20, { message: 'Content cannot be more than 20 characters.' }),
+    .max(50, { message: 'Content cannot be more than 20 characters.' }),
   description: z.string().optional(),
   content: z.string().optional(),
   imgUrls: z.array(z.string().url()).optional(),
@@ -53,8 +53,8 @@ export const CardComponentForm = ({
       title: '',
       description: '',
       content: '',
-      imgUrls: [''],
-      buttons: [{ content: '', href: '' }],
+      imgUrls: [],
+      buttons: [],
     },
   });
 
@@ -92,8 +92,8 @@ export const CardComponentForm = ({
           title: values.title,
           description: values.description || '',
           content: values.content || '',
-          imgUrls: values.imgUrls || [''],
-          buttons: values.buttons || [{ content: '', href: '' }],
+          imgUrls: values.imgUrls || [],
+          buttons: values.buttons || [],
         },
       });
       form.reset();
