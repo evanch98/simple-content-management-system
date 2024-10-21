@@ -8,8 +8,8 @@ export const ComponentEnum = [
   'Button',
   'Card',
   'Image',
-  'Text',
+  'Title',
   'TextBlock',
 ] as const;
 
-export type ComponentType = typeof ComponentEnum[number];
+export type ComponentType = (typeof ComponentEnum)[number];
