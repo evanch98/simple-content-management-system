@@ -10,6 +10,7 @@ import { useComponentCreateModal } from '@/store/use-component-create-modal';
 import { useParams } from 'next/navigation';
 import { Id } from '../../../convex/_generated/dataModel';
 import { CardComponentForm } from '@/components/dashboard/components/card-component-form';
+import { TitleComponentForm } from '@/components/dashboard/components/title-component-form';
 
 export const ComponentCreateModal = () => {
   const params = useParams();
@@ -31,6 +32,15 @@ export const ComponentCreateModal = () => {
     case 'Card':
       dialogContent = (
         <CardComponentForm
+          pageId={pageId!}
+          sectionId={sectionId!}
+          projectId={params.projectId as Id<'projects'>}
+        />
+      );
+      break;
+    case 'Title':
+      dialogContent = (
+        <TitleComponentForm
           pageId={pageId!}
           sectionId={sectionId!}
           projectId={params.projectId as Id<'projects'>}
