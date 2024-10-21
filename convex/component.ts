@@ -8,7 +8,7 @@ export const create = mutation({
       v.literal('Button'),
       v.literal('Card'),
       v.literal('Image'),
-      v.literal('Text'),
+      v.literal('Title'),
       v.literal('TextBlock'),
     ),
     content: v.record(
@@ -43,5 +43,28 @@ export const create = mutation({
     });
 
     return component;
+  },
+});
+
+export const remove = mutation({
+  args: { id: v.id('components') },
+  handler: async (ctx, args) => {
+    const userId = await getAuthUserId(ctx);
+
+    if (!userId) {
+      throw new Error('Not authenticated');
+    }
+
+    const component = await ctx.db.get(args.id);
+
+    if (!component) {
+      throw new Error('Not found');
+    }
+
+    if (component.userId !== userId) {
+      throw new Error('Unauthorized');
+    }
+
+    await ctx.db.delete(args.id);
   },
 });
