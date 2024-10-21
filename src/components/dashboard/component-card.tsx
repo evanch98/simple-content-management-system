@@ -8,6 +8,10 @@ import {
 import { Doc } from '../../../convex/_generated/dataModel';
 import { cn } from '@/lib/utils';
 import { GeistMono } from 'geist/font/mono';
+import { useMutation } from 'convex/react';
+import { api } from '../../../convex/_generated/api';
+import { toast } from 'sonner';
+import { DeleteAlertDialog } from '@/components/dashboard/delete-alert-dialog';
 
 interface ComponentCardProps {
   component: Doc<'components'>;
@@ -15,6 +19,17 @@ interface ComponentCardProps {
 
 export const ComponentCard = ({ component }: ComponentCardProps) => {
   const content = Object.keys(component.content);
+
+  const deleteComponent = useMutation(api.component.remove);
+
+  const onDeleteComponent = async () => {
+    try {
+      await deleteComponent({ id: component._id });
+      toast('Successfully removed the component.');
+    } catch (e) {
+      toast('Something went wrong! Please try again.');
+    }
+  };
 
   return (
     <Card className="rounded-md">
@@ -84,14 +99,19 @@ export const ComponentCard = ({ component }: ComponentCardProps) => {
             >
               Edit
             </Button>
-            <Button
-              variant="link"
-              size="sm"
-              className="p-0 text-destructive"
-              type="button"
+            <DeleteAlertDialog
+              onConfirm={onDeleteComponent}
+              description="This action cannot be undone. This will permanently delete the component."
             >
-              Delete
-            </Button>
+              <Button
+                variant="link"
+                size="sm"
+                className="p-0 text-destructive"
+                type="button"
+              >
+                Delete
+              </Button>
+            </DeleteAlertDialog>
           </div>
         </CardTitle>
       </CardHeader>
