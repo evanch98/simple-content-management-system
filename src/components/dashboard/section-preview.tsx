@@ -19,6 +19,18 @@ export const SectionPreview = ({
 }: SectionPreviewProps) => {
   const [value, setValue] = useState('large');
 
+  const titleComponents = components.filter(
+    (component) => component.type === 'Title',
+  );
+
+  const cardComponents = components.filter(
+    (component) => component.type === 'Card',
+  );
+
+  const buttonComponents = components.filter(
+    (component) => component.type === 'Button',
+  );
+
   return (
     <Tabs
       className="h-full w-full"
@@ -66,34 +78,47 @@ export const SectionPreview = ({
             <Info className="mr-1 size-3 flex-shrink-0" />
             <p>
               This is a rough preview of the{' '}
-              <span className="mx-1 font-semibold">{currentSection.name}</span>{' '}
+              <span className="font-semibold">{currentSection.name}</span>{' '}
               section. The actual style depends on your website design.
             </p>
           </div>
-          <div className="flex h-full w-full flex-col items-center justify-center gap-y-4 overflow-hidden py-4">
+          <Separator className="my-4" />
+          <div className="flex h-full w-full flex-col items-center justify-center gap-y-4 overflow-hidden py-2">
             <div className="flex h-full w-full flex-col gap-y-8 overflow-y-auto">
-              <div className="flex w-full flex-wrap items-center gap-2">
-                {components.map(
-                  (component) =>
-                    component.type === 'Card' && (
-                      <CardPreview
-                        key={component._id}
-                        component={component}
-                      />
-                    ),
-                )}
-              </div>
-              <div className="flex w-full flex-wrap items-center gap-2">
-                {components.map(
-                  (component) =>
-                    component.type === 'Button' && (
-                      <ButtonPreview
-                        key={component._id}
-                        content={component.content.content as string}
-                      />
-                    ),
-                )}
-              </div>
+              {components.length === 0 && (
+                <p className="text-center text-xs text-muted-foreground">
+                  You haven&apos;t added any component for this section.
+                </p>
+              )}
+              {titleComponents.length !== 0 &&
+                titleComponents.map((component) => (
+                  <h1
+                    key={component._id}
+                    className="text-center text-3xl font-semibold text-foreground"
+                  >
+                    {component.content.content as string}
+                  </h1>
+                ))}
+              {cardComponents.length !== 0 && (
+                <div className="flex w-full flex-wrap items-center justify-center gap-2">
+                  {cardComponents.map((component) => (
+                    <CardPreview
+                      key={component._id}
+                      component={component}
+                    />
+                  ))}
+                </div>
+              )}
+              {buttonComponents.length !== 0 && (
+                <div className="flex w-full flex-wrap items-center justify-center gap-2">
+                  {buttonComponents.map((component) => (
+                    <ButtonPreview
+                      key={component._id}
+                      content={component.content.content as string}
+                    />
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </div>
