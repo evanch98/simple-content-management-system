@@ -51,7 +51,7 @@ const DashboardPage = ({ params }: DashboardPageProps) => {
   });
 
   return (
-    <main className="flex h-[calc(100%-3rem)] flex-col gap-y-4 py-4">
+    <main className="flex h-[calc(100%-3.25rem)] flex-col gap-y-4 py-4">
       <Breadcrumb className="hidden md:flex">
         <BreadcrumbList>
           <BreadcrumbItem>
