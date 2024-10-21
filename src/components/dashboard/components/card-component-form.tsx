@@ -98,7 +98,7 @@ export const CardComponentForm = ({
       });
       form.reset();
       onClose();
-      toast('Successfully created a button component.');
+      toast('Successfully created a card component.');
     } catch (error) {
       toast('Something went wrong! Please try again.');
     }
