@@ -31,6 +31,10 @@ export const SectionPreview = ({
     (component) => component.type === 'Button',
   );
 
+  const textBlockComponents = components.filter(
+    (component) => component.type === 'TextBlock',
+  );
+
   return (
     <Tabs
       className="h-full w-full"
@@ -98,6 +102,20 @@ export const SectionPreview = ({
                   >
                     {component.content.content as string}
                   </h1>
+                ))}
+              {textBlockComponents.length !== 0 &&
+                textBlockComponents.map((component) => (
+                  <div
+                    key={component._id}
+                    className="flex flex-col gap-y-1 text-center"
+                  >
+                    <h2 className="text-lg font-semibold">
+                      {component.content.text as string}
+                    </h2>
+                    <p className="text-sm text-muted-foreground">
+                      {component.content.description as string}
+                    </p>
+                  </div>
                 ))}
               {cardComponents.length !== 0 && (
                 <div className="flex w-full flex-wrap items-center justify-center gap-2">
