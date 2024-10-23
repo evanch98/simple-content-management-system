@@ -13,27 +13,21 @@ import { Input } from '@/components/ui/input';
 import { useComponentCreateModal } from '@/store/use-component-create-modal';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
-import { Id } from '../../../../convex/_generated/dataModel';
 import { useMutation } from 'convex/react';
 import { api } from '../../../../convex/_generated/api';
 import { Textarea } from '@/components/ui/textarea';
+import { FormProps } from '@/components/modals/component-create-modal';
 
 export const textBlockFormSchema = z.object({
   text: z.string().min(1, { message: 'Text should be at least 1 character.' }),
   description: z.string().optional(),
 });
 
-interface TextBlockComponentFormProps {
-  pageId: Id<'pages'>;
-  sectionId: Id<'sections'>;
-  projectId: Id<'projects'>;
-}
-
 export const TextBlockComponentForm = ({
   pageId,
   sectionId,
   projectId,
-}: TextBlockComponentFormProps) => {
+}: FormProps) => {
   const { onClose } = useComponentCreateModal();
   const createButton = useMutation(api.component.create);
 

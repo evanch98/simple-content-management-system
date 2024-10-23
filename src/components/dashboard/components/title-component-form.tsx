@@ -13,9 +13,9 @@ import { Input } from '@/components/ui/input';
 import { useComponentCreateModal } from '@/store/use-component-create-modal';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
-import { Id } from '../../../../convex/_generated/dataModel';
 import { useMutation } from 'convex/react';
 import { api } from '../../../../convex/_generated/api';
+import { FormProps } from '@/components/modals/component-create-modal';
 
 export const titleFormSchema = z.object({
   title: z
@@ -23,17 +23,11 @@ export const titleFormSchema = z.object({
     .min(1, { message: 'Content should be at least 1 character.' }),
 });
 
-interface TitleComponentFormProps {
-  pageId: Id<'pages'>;
-  sectionId: Id<'sections'>;
-  projectId: Id<'projects'>;
-}
-
 export const TitleComponentForm = ({
   pageId,
   sectionId,
   projectId,
-}: TitleComponentFormProps) => {
+}: FormProps) => {
   const { onClose } = useComponentCreateModal();
   const createButton = useMutation(api.component.create);
 

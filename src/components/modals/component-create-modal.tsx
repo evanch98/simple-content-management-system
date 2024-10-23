@@ -14,6 +14,12 @@ import { TitleComponentForm } from '@/components/dashboard/components/title-comp
 import { TextBlockComponentForm } from '../dashboard/components/text-block-component-form';
 import { ImageComponentForm } from '../dashboard/components/image-component-form';
 
+export interface FormProps {
+  pageId: Id<'pages'>;
+  sectionId: Id<'sections'>;
+  projectId: Id<'projects'>;
+}
+
 export const ComponentCreateModal = () => {
   const params = useParams();
   const { isOpen, onClose, componentType, pageId, sectionId } =

@@ -13,9 +13,9 @@ import { Input } from '@/components/ui/input';
 import { useComponentCreateModal } from '@/store/use-component-create-modal';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
-import { Id } from '../../../../convex/_generated/dataModel';
 import { useMutation } from 'convex/react';
 import { api } from '../../../../convex/_generated/api';
+import { FormProps } from '@/components/modals/component-create-modal';
 
 export const buttonFormSchema = z.object({
   content: z
@@ -25,17 +25,11 @@ export const buttonFormSchema = z.object({
   href: z.string().optional(),
 });
 
-interface ButtonComponentFormProps {
-  pageId: Id<'pages'>;
-  sectionId: Id<'sections'>;
-  projectId: Id<'projects'>;
-}
-
 export const ButtonComponentForm = ({
   pageId,
   sectionId,
   projectId,
-}: ButtonComponentFormProps) => {
+}: FormProps) => {
   const { onClose } = useComponentCreateModal();
   const createButton = useMutation(api.component.create);
 

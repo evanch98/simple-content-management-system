@@ -13,10 +13,10 @@ import { Input } from '@/components/ui/input';
 import { useComponentCreateModal } from '@/store/use-component-create-modal';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
-import { Id } from '../../../../convex/_generated/dataModel';
 import { useMutation } from 'convex/react';
 import { api } from '../../../../convex/_generated/api';
 import { PlusCircle, X } from 'lucide-react';
+import { FormProps } from '@/components/modals/component-create-modal';
 
 export const cardFormSchema = z.object({
   title: z
@@ -33,17 +33,11 @@ export const cardFormSchema = z.object({
 
 type FormValues = z.infer<typeof cardFormSchema>;
 
-interface CardComponentFormProps {
-  pageId: Id<'pages'>;
-  sectionId: Id<'sections'>;
-  projectId: Id<'projects'>;
-}
-
 export const CardComponentForm = ({
   pageId,
   sectionId,
   projectId,
-}: CardComponentFormProps) => {
+}: FormProps) => {
   const { onClose } = useComponentCreateModal();
   const createCard = useMutation(api.component.create);
 
