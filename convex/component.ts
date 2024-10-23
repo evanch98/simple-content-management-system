@@ -5,6 +5,7 @@ import { getAuthUserId } from '@convex-dev/auth/server';
 export const create = mutation({
   args: {
     type: v.union(
+      v.literal('Badge'),
       v.literal('Button'),
       v.literal('Card'),
       v.literal('Image'),

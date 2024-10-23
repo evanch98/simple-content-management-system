@@ -34,6 +34,7 @@ const schema = defineSchema({
     userId: v.id('users'),
     updatedAt: v.number(),
     type: v.union(
+      v.literal('Badge'),
       v.literal('Button'),
       v.literal('Card'),
       v.literal('Image'),

@@ -5,6 +5,7 @@ export type RouteType = {
 };
 
 export const ComponentEnum = [
+  'Badge',
   'Button',
   'Card',
   'Image',
