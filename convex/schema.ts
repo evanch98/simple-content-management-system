@@ -62,6 +62,14 @@ const schema = defineSchema({
       'sectionId',
     ])
     .index('by_section_type', ['sectionId', 'type']),
+  media: defineTable({
+    projectId: v.id('projects'),
+    userId: v.id('users'),
+    title: v.string(),
+    file: v.id('_storage'),
+  })
+    .index('by_project', ['projectId'])
+    .index('by_user_project', ['userId', 'projectId']),
 });
 
 export default schema;

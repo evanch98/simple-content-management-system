@@ -19,6 +19,7 @@ import type * as auth from "../auth.js";
 import type * as component from "../component.js";
 import type * as components from "../components.js";
 import type * as http from "../http.js";
+import type * as media from "../media.js";
 import type * as page from "../page.js";
 import type * as pages from "../pages.js";
 import type * as project from "../project.js";
@@ -40,6 +41,7 @@ declare const fullApi: ApiFromModules<{
   component: typeof component;
   components: typeof components;
   http: typeof http;
+  media: typeof media;
   page: typeof page;
   pages: typeof pages;
   project: typeof project;
