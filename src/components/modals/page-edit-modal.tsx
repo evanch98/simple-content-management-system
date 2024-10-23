@@ -7,7 +7,7 @@ import { api } from '../../../convex/_generated/api';
 import { Id } from '../../../convex/_generated/dataModel';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   DialogHeader,
@@ -53,11 +53,8 @@ export const PageEditModal = () => {
     form.reset({ title });
   }, [form, title]);
 
-  const [isLoading, setIsLoading] = useState(false);
-
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      setIsLoading(true);
       await editPage({
         title: values.title,
         id: params.pageId as Id<'pages'>,
@@ -66,8 +63,6 @@ export const PageEditModal = () => {
       toast('Successfully updated the page.');
     } catch (error) {
       toast('Something went wrong! Please try again.');
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -103,14 +98,14 @@ export const PageEditModal = () => {
         </Form>
         <DialogFooter>
           <Button
-            disabled={isLoading}
+            disabled={form.formState.isSubmitting}
             onClick={onClose}
             variant="outline"
           >
             Cancel
           </Button>
           <Button
-            disabled={isLoading}
+            disabled={form.formState.isSubmitting}
             onClick={form.handleSubmit(onSubmit)}
           >
             Save

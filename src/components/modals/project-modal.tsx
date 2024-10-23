@@ -25,7 +25,6 @@ import {
 } from '@/components/ui/form';
 import { useProjectModal } from '@/store/use-project-modal';
 import { api } from '../../../convex/_generated/api';
-import { useState } from 'react';
 import { toast } from 'sonner';
 
 const formSchema = z.object({
@@ -48,19 +47,14 @@ export const ProjectModal = () => {
     },
   });
 
-  const [isLoading, setIsLoading] = useState(false);
-
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      setIsLoading(true);
       const newProject = await createProject({ title: values.title });
       projectModal.onClose();
       router.push(`/${newProject}`);
       toast('Successfully created a new project.');
     } catch (error) {
       toast('Something went wrong! Please try again.');
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -97,14 +91,14 @@ export const ProjectModal = () => {
           </Form>
           <DialogFooter>
             <Button
-              disabled={isLoading}
+              disabled={form.formState.isSubmitting}
               onClick={projectModal.onClose}
               variant="outline"
             >
               Cancel
             </Button>
             <Button
-              disabled={isLoading}
+              disabled={form.formState.isSubmitting}
               onClick={form.handleSubmit(onSubmit)}
             >
               Create

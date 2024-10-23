@@ -24,7 +24,6 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { api } from '../../../convex/_generated/api';
-import { useState } from 'react';
 import { usePageCreateModal } from '@/store/use-page-create-modal';
 import { Id } from '../../../convex/_generated/dataModel';
 import { toast } from 'sonner';
@@ -49,11 +48,8 @@ export const PageCreateModal = () => {
     },
   });
 
-  const [isLoading, setIsLoading] = useState(false);
-
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      setIsLoading(true);
       await createPage({
         title: values.title,
         projectId: params.projectId as Id<'projects'>,
@@ -63,8 +59,6 @@ export const PageCreateModal = () => {
       toast('Successfully created a new page.');
     } catch (error) {
       toast('Something went wrong! Please try again.');
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -100,14 +94,14 @@ export const PageCreateModal = () => {
         </Form>
         <DialogFooter>
           <Button
-            disabled={isLoading}
+            disabled={form.formState.isSubmitting}
             onClick={onClose}
             variant="outline"
           >
             Cancel
           </Button>
           <Button
-            disabled={isLoading}
+            disabled={form.formState.isSubmitting}
             onClick={form.handleSubmit(onSubmit)}
           >
             Create
