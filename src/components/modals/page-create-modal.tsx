@@ -27,6 +27,7 @@ import { api } from '../../../convex/_generated/api';
 import { useState } from 'react';
 import { usePageCreateModal } from '@/store/use-page-create-modal';
 import { Id } from '../../../convex/_generated/dataModel';
+import { toast } from 'sonner';
 
 const formSchema = z.object({
   title: z
@@ -59,8 +60,9 @@ export const PageCreateModal = () => {
       });
       form.reset();
       onClose();
+      toast('Successfully created a new page.');
     } catch (error) {
-      // TODO: add toast
+      toast('Something went wrong! Please try again.');
     } finally {
       setIsLoading(false);
     }

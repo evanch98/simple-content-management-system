@@ -27,6 +27,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { useParams } from 'next/navigation';
+import { toast } from 'sonner';
 
 const formSchema = z.object({
   title: z
@@ -62,8 +63,9 @@ export const PageEditModal = () => {
         id: params.pageId as Id<'pages'>,
       });
       onClose();
+      toast('Successfully updated the page.');
     } catch (error) {
-      // TODO: add toast
+      toast('Something went wrong! Please try again.');
     } finally {
       setIsLoading(false);
     }

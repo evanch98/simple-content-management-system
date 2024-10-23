@@ -26,6 +26,7 @@ import {
 import { useProjectModal } from '@/store/use-project-modal';
 import { api } from '../../../convex/_generated/api';
 import { useState } from 'react';
+import { toast } from 'sonner';
 
 const formSchema = z.object({
   title: z
@@ -55,8 +56,9 @@ export const ProjectModal = () => {
       const newProject = await createProject({ title: values.title });
       projectModal.onClose();
       router.push(`/${newProject}`);
+      toast('Successfully created a new project.');
     } catch (error) {
-      // TODO: add toast
+      toast('Something went wrong! Please try again.');
     } finally {
       setIsLoading(false);
     }
