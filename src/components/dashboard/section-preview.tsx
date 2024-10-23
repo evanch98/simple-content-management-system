@@ -35,6 +35,10 @@ export const SectionPreview = ({
     (component) => component.type === 'TextBlock',
   );
 
+  const badgeComponents = components.filter(
+    (component) => component.type === 'Badge',
+  );
+
   return (
     <Tabs
       className="h-full w-full"
@@ -94,6 +98,15 @@ export const SectionPreview = ({
                   You haven&apos;t added any component for this section.
                 </p>
               )}
+              {badgeComponents.length !== 0 &&
+                badgeComponents.map((component) => (
+                  <div
+                    key={component._id}
+                    className="flex w-full justify-end"
+                  >
+                    <Badge>{component.content.content as string}</Badge>
+                  </div>
+                ))}
               {titleComponents.length !== 0 &&
                 titleComponents.map((component) => (
                   <h1

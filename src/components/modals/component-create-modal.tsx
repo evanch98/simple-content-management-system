@@ -13,6 +13,7 @@ import { CardComponentForm } from '@/components/dashboard/components/card-compon
 import { TitleComponentForm } from '@/components/dashboard/components/title-component-form';
 import { TextBlockComponentForm } from '../dashboard/components/text-block-component-form';
 import { ImageComponentForm } from '../dashboard/components/image-component-form';
+import { BadgeComponentForm } from '../dashboard/components/badge-component-form';
 
 export interface FormProps {
   pageId: Id<'pages'>;
@@ -28,6 +29,15 @@ export const ComponentCreateModal = () => {
   let dialogContent;
 
   switch (componentType) {
+    case 'Badge':
+      dialogContent = (
+        <BadgeComponentForm
+          pageId={pageId!}
+          sectionId={sectionId!}
+          projectId={params.projectId as Id<'projects'>}
+        />
+      );
+      break;
     case 'Button':
       dialogContent = (
         <ButtonComponentForm
