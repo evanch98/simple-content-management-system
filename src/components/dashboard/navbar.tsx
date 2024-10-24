@@ -23,7 +23,7 @@ export const Navbar = () => {
     {
       href: `/${params.projectId}`,
       label: 'Pages',
-      active: pathname === `/${params.projectId}`,
+      active: pathname === `/${params.projectId}` || pathname.includes('pages'),
     },
     {
       href: `/${params.projectId}/media`,
