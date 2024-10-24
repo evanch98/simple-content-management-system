@@ -9,6 +9,7 @@ import {
 } from '@/components/ui/card';
 import { Doc } from '../../../../convex/_generated/dataModel';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 
 interface CardPreviewProps {
   component: Doc<'components'>;
@@ -22,9 +23,18 @@ export const CardPreview = ({ component }: CardPreviewProps) => {
 
   const images = component.content.imgUrls as string[];
 
+  const badges = component.content.badges as string[];
+
   return (
-    <Card>
+    <Card className="max-w-80">
       <CardHeader>
+        <div className="flex gap-x-2 py-4">
+          {badges !== undefined &&
+            badges.length !== 0 &&
+            badges.map((badge, index) => (
+              <Badge key={`${badge}-${index}`}>{badge}</Badge>
+            ))}
+        </div>
         <CardTitle>{component.content.title as string}</CardTitle>
         <CardDescription>
           {component.content.description as string}
