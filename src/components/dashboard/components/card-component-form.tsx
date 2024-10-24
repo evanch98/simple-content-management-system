@@ -17,6 +17,7 @@ import { useMutation } from 'convex/react';
 import { api } from '../../../../convex/_generated/api';
 import { PlusCircle, X } from 'lucide-react';
 import { FormProps } from '@/components/modals/component-create-modal';
+import { Textarea } from '@/components/ui/textarea';
 
 export const cardFormSchema = z.object({
   title: z
@@ -26,6 +27,7 @@ export const cardFormSchema = z.object({
   description: z.string().optional(),
   content: z.string().optional(),
   imgUrls: z.array(z.string().url()).optional(),
+  badges: z.array(z.string().min(1).max(50)).optional(),
   buttons: z
     .array(z.object({ content: z.string(), href: z.string().optional() }))
     .optional(),
@@ -49,6 +51,7 @@ export const CardComponentForm = ({
       content: '',
       imgUrls: [],
       buttons: [],
+      badges: [],
     },
   });
 
@@ -70,9 +73,23 @@ export const CardComponentForm = ({
     name: 'imgUrls' as FieldArrayPath<FormValues>,
   });
 
+  const {
+    fields: badgeFields,
+    append: appendBadge,
+    remove: removeBadge,
+  } = useFieldArray({
+    control: form.control,
+    name: 'badges' as FieldArrayPath<FormValues>,
+  });
+
   const onAppendImage = () => {
     // @ts-ignore
     appendImgUrl('');
+  };
+
+  const onAppendBadge = () => {
+    // @ts-ignore
+    appendBadge('');
   };
 
   const onSubmit = async (values: z.infer<typeof cardFormSchema>) => {
@@ -88,6 +105,7 @@ export const CardComponentForm = ({
           content: values.content || '',
           imgUrls: values.imgUrls || [],
           buttons: values.buttons || [],
+          badges: values.badges || [],
         },
       });
       form.reset();
@@ -141,7 +159,8 @@ export const CardComponentForm = ({
               <FormItem>
                 <FormLabel>Content (optional)</FormLabel>
                 <FormControl>
-                  <Input
+                  <Textarea
+                    rows={3}
                     placeholder="Card content"
                     {...field}
                   />
@@ -150,6 +169,46 @@ export const CardComponentForm = ({
               </FormItem>
             )}
           />
+          <div>
+            <FormLabel className="mr-2">Badges</FormLabel>
+            {badgeFields.map((field, index) => (
+              <FormField
+                key={field.id}
+                control={form.control}
+                name={`badges.${index}` as const}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <div className="my-2 flex items-center justify-center gap-x-2">
+                        <Input
+                          placeholder="Badge"
+                          {...field}
+                        />
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="icon"
+                          onClick={() => removeBadge(index)}
+                        >
+                          <X className="size-3.5 text-destructive" />
+                        </Button>
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            ))}
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={onAppendBadge}
+            >
+              <PlusCircle className="mr-2 size-3.5" />
+              Add Badge
+            </Button>
+          </div>
           <div>
             <FormLabel className="mr-2">Image URLs</FormLabel>
             {imgUrlFields.map((field, index) => (
