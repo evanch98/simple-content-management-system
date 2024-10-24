@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -37,6 +38,10 @@ export const SectionPreview = ({
 
   const badgeComponents = components.filter(
     (component) => component.type === 'Badge',
+  );
+
+  const imageComponents = components.filter(
+    (component) => component.type === 'Image',
   );
 
   return (
@@ -128,6 +133,19 @@ export const SectionPreview = ({
                     <p className="text-sm text-muted-foreground">
                       {component.content.description as string}
                     </p>
+                  </div>
+                ))}
+              {imageComponents.length !== 0 &&
+                imageComponents.map((component) => (
+                  <div
+                    key={component._id}
+                    className="size-64 overflow-hidden rounded-md shadow"
+                  >
+                    <img
+                      alt="Sample Image"
+                      src={component.content.url as string}
+                      className="h-full w-full object-cover"
+                    />
                   </div>
                 ))}
               {cardComponents.length !== 0 && (
