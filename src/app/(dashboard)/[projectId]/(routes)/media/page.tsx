@@ -104,7 +104,7 @@ const MediaPage = () => {
           </CardHeader>
           <CardContent>
             {files.length === 0 ? (
-              <div className="absolute mt-[90px] left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center gap-y-2 py-4">
+              <div className="absolute left-1/2 top-1/2 mt-[90px] flex -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center gap-y-2 py-4">
                 <p className="text-sm text-muted-foreground">
                   You don&apos;t have any image for this project.
                 </p>
