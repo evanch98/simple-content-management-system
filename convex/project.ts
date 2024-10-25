@@ -103,7 +103,7 @@ export const remove = mutation({
     });
 
     pages.map(async (page) => {
-      await ctx.db.delete(page._id);
+      await ctx.runMutation(api.page.remove, { id: page._id });
     });
 
     const files = await ctx.runQuery(api.media.getFiles, {
@@ -111,8 +111,10 @@ export const remove = mutation({
     });
 
     files.map(async (file) => {
-      await ctx.db.delete(file._id);
-      await ctx.storage.delete(file.file);
+      await ctx.runMutation(api.media.remove, {
+        id: file._id,
+        storageId: file.file,
+      });
     });
 
     await ctx.db.delete(args.id);
