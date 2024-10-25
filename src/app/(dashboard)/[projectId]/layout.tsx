@@ -4,7 +4,6 @@ import { Navbar } from '@/components/dashboard/navbar';
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
-  params: { projectId: string };
 }
 
 const DashboardLayout = ({ children }: DashboardLayoutProps) => {
