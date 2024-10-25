@@ -25,16 +25,25 @@ import { Button } from '@/components/ui/button';
 import { ProjectUpdateForm } from '@/components/dashboard/project-update-form';
 import { DeleteAlertDialog } from '@/components/dashboard/delete-alert-dialog';
 import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { toast } from 'sonner';
 
 const SettingsPage = () => {
   const params = useParams();
   const router = useRouter();
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const project = useQuery(api.project.get, {
     id: params.projectId as Id<'projects'>,
   });
 
   const deleteProject = useMutation(api.project.remove);
+
+  useEffect(() => {
+    if (isDeleting) {
+      router.replace('/');
+    }
+  }, [isDeleting, router]);
 
   if (project === undefined) {
     return (
@@ -44,9 +53,16 @@ const SettingsPage = () => {
     );
   }
 
-  const onDeleteProject = () => {
-    deleteProject({ id: params.projectId as Id<'projects'> });
-    router.replace('/');
+  const onDeleteProject = async () => {
+    try {
+      setIsDeleting(true);
+      await deleteProject({ id: params.projectId as Id<'projects'> });
+      toast('Successfully deleted the project.');
+    } catch (e) {
+      toast('Something went wrong! Please try again.');
+    } finally {
+      setIsDeleting(false);
+    }
   };
 
   return (
