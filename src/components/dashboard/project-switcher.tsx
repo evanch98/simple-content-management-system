@@ -19,7 +19,7 @@ import { useState } from 'react';
 import { Doc, Id } from '../../../convex/_generated/dataModel';
 import { cn } from '@/lib/utils';
 import { RiApps2AddLine, RiApps2Line } from 'react-icons/ri';
-import { useParams, useRouter } from 'next/navigation';
+import { redirect, useParams, useRouter } from 'next/navigation';
 import { useQuery } from 'convex/react';
 import { api } from '../../../convex/_generated/api';
 import { Check, ChevronsUpDown, PlusCircle } from 'lucide-react';
@@ -39,9 +39,16 @@ export const ProjectSwitcher = ({
   const params = useParams();
   const router = useRouter();
 
-  const currentProject = useQuery(api.project.get, {
-    id: params.projectId as Id<'projects'>,
-  });
+  let currentProject;
+
+  try {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    currentProject = useQuery(api.project.get, {
+      id: params.projectId as Id<'projects'>,
+    });
+  } catch (e) {
+    return redirect('/');
+  }
 
   const onProjectSelect = (projectId: string) => {
     setOpen(false);
