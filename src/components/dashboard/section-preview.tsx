@@ -8,6 +8,7 @@ import { cn } from '@/lib/utils';
 import { useState } from 'react';
 import { ButtonPreview } from '@/components/dashboard/preview/button-preview';
 import { CardPreview } from '@/components/dashboard/preview/card-preview';
+import Link from 'next/link';
 
 interface SectionPreviewProps {
   currentSection: Doc<'sections'>;
@@ -42,6 +43,10 @@ export const SectionPreview = ({
 
   const imageComponents = components.filter(
     (component) => component.type === 'Image',
+  );
+
+  const linkComponents = components.filter(
+    (component) => component.type === 'Link',
   );
 
   return (
@@ -165,6 +170,20 @@ export const SectionPreview = ({
                       key={component._id}
                       content={component.content.content as string}
                     />
+                  ))}
+                </div>
+              )}
+              {linkComponents.length !== 0 && (
+                <div className="flex w-full gap-x-2">
+                  {linkComponents.map((component) => (
+                    <Link
+                      key={component._id}
+                      href={component.content.href as string}
+                      className="text-xs font-medium transition hover:underline"
+                      target="_blank"
+                    >
+                      {(component.content.title as string) || 'Link'}
+                    </Link>
                   ))}
                 </div>
               )}
