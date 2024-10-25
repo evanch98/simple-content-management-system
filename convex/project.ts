@@ -7,7 +7,7 @@ import {
 } from './_generated/server';
 import { getAuthUserId } from '@convex-dev/auth/server';
 import { Id } from './_generated/dataModel';
-import { internal } from './_generated/api';
+import { api, internal } from './_generated/api';
 
 export const create = mutation({
   args: {
@@ -50,6 +50,72 @@ export const get = query({
     }
 
     return project;
+  },
+});
+
+export const update = mutation({
+  args: { id: v.id('projects'), title: v.string() },
+  handler: async (ctx, args) => {
+    const userId = await getAuthUserId(ctx);
+
+    if (!userId) {
+      throw new Error('Not authenticated');
+    }
+
+    const project = await ctx.db.get(args.id);
+
+    if (!project) {
+      throw new Error('Not found');
+    }
+
+    if (project.userId !== userId) {
+      throw new Error('Unauthorized');
+    }
+
+    await ctx.db.patch(args.id, {
+      title: args.title,
+      updatedAt: Date.now(),
+    });
+  },
+});
+
+export const remove = mutation({
+  args: { id: v.id('projects') },
+  handler: async (ctx, args) => {
+    const userId = await getAuthUserId(ctx);
+
+    if (!userId) {
+      throw new Error('Not authenticated');
+    }
+
+    const project = await ctx.db.get(args.id);
+
+    if (!project) {
+      throw new Error('Not found');
+    }
+
+    if (project.userId !== userId) {
+      throw new Error('Unauthorized');
+    }
+
+    const pages = await ctx.runQuery(api.pages.get, {
+      projectId: project._id,
+    });
+
+    pages.map(async (page) => {
+      await ctx.db.delete(page._id);
+    });
+
+    const files = await ctx.runQuery(api.media.getFiles, {
+      projectId: project._id,
+    });
+
+    files.map(async (file) => {
+      await ctx.db.delete(file._id);
+      await ctx.storage.delete(file.file);
+    });
+
+    await ctx.db.delete(args.id);
   },
 });
 
