@@ -52,6 +52,7 @@ export const ProjectModal = () => {
       const newProject = await createProject({ title: values.title });
       projectModal.onClose();
       router.push(`/${newProject}`);
+      form.reset();
       toast('Successfully created a new project.');
     } catch (error) {
       toast('Something went wrong! Please try again.');
