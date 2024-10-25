@@ -11,6 +11,7 @@ export const create = mutation({
       v.literal('Image'),
       v.literal('Title'),
       v.literal('TextBlock'),
+      v.literal('Link'),
     ),
     content: v.record(
       v.string(),

@@ -40,6 +40,7 @@ const schema = defineSchema({
       v.literal('Image'),
       v.literal('Title'),
       v.literal('TextBlock'),
+      v.literal('Link'),
     ),
     content: v.record(
       v.string(),

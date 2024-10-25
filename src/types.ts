@@ -11,6 +11,7 @@ export const ComponentEnum = [
   'Image',
   'Title',
   'TextBlock',
+  'Link',
 ] as const;
 
 export type ComponentType = (typeof ComponentEnum)[number];
