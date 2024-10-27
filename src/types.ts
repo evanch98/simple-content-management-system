@@ -10,6 +10,7 @@ export const ComponentEnum = [
   'Card',
   'Image',
   'Title',
+  'Text',
   'TextBlock',
   'Link',
 ] as const;

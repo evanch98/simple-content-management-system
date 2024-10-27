@@ -39,6 +39,7 @@ const schema = defineSchema({
       v.literal('Card'),
       v.literal('Image'),
       v.literal('Title'),
+      v.literal('Text'),
       v.literal('TextBlock'),
       v.literal('Link'),
     ),

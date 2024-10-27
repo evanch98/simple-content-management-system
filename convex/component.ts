@@ -10,6 +10,7 @@ export const create = mutation({
       v.literal('Card'),
       v.literal('Image'),
       v.literal('Title'),
+      v.literal('Text'),
       v.literal('TextBlock'),
       v.literal('Link'),
     ),
