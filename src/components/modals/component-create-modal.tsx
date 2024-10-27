@@ -15,6 +15,7 @@ import { TextBlockComponentForm } from '../dashboard/components/text-block-compo
 import { ImageComponentForm } from '../dashboard/components/image-component-form';
 import { BadgeComponentForm } from '../dashboard/components/badge-component-form';
 import { LinkComponentForm } from '../dashboard/components/link-component-form';
+import { TextComponentForm } from '../dashboard/components/text-component-form';
 
 export interface FormProps {
   pageId: Id<'pages'>;
@@ -60,6 +61,15 @@ export const ComponentCreateModal = () => {
     case 'Title':
       dialogContent = (
         <TitleComponentForm
+          pageId={pageId!}
+          sectionId={sectionId!}
+          projectId={params.projectId as Id<'projects'>}
+        />
+      );
+      break;
+    case 'Text':
+      dialogContent = (
+        <TextComponentForm
           pageId={pageId!}
           sectionId={sectionId!}
           projectId={params.projectId as Id<'projects'>}
