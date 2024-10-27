@@ -49,6 +49,47 @@ export const create = mutation({
   },
 });
 
+export const update = mutation({
+  args: {
+    id: v.id('components'),
+    content: v.record(
+      v.string(),
+      v.union(
+        v.string(),
+        v.array(v.string()),
+        v.array(
+          v.object({ content: v.string(), href: v.optional(v.string()) }),
+        ),
+      ),
+    ),
+    sectionId: v.id('sections'),
+    pageId: v.id('pages'),
+    projectId: v.id('projects'),
+  },
+  handler: async (ctx, args) => {
+    const userId = await getAuthUserId(ctx);
+
+    if (!userId) {
+      throw new Error('Not authenticated');
+    }
+
+    const component = await ctx.db.get(args.id);
+
+    if (!component) {
+      throw new Error('Not found');
+    }
+
+    await ctx.db.patch(args.id, {
+      content: args.content,
+      sectionId: args.sectionId,
+      userId: userId,
+      projectId: args.projectId,
+      pageId: args.pageId,
+      updatedAt: Date.now(),
+    });
+  },
+});
+
 export const remove = mutation({
   args: { id: v.id('components') },
   handler: async (ctx, args) => {
