@@ -49,6 +49,10 @@ export const SectionPreview = ({
     (component) => component.type === 'Link',
   );
 
+  const textComponents = components.filter(
+    (component) => component.type === 'Text',
+  );
+
   return (
     <Tabs
       className="h-full w-full"
@@ -125,6 +129,15 @@ export const SectionPreview = ({
                   >
                     {component.content.content as string}
                   </h1>
+                ))}
+              {textComponents.length !== 0 &&
+                textComponents.map((component) => (
+                  <p
+                    key={component._id}
+                    className="text-center"
+                  >
+                    {component.content.content as string}
+                  </p>
                 ))}
               {textBlockComponents.length !== 0 &&
                 textBlockComponents.map((component) => (
