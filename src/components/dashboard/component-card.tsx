@@ -12,6 +12,7 @@ import { useMutation } from 'convex/react';
 import { api } from '../../../convex/_generated/api';
 import { toast } from 'sonner';
 import { DeleteAlertDialog } from '@/components/dashboard/delete-alert-dialog';
+import { useComponentCreateModal } from '@/store/use-component-create-modal';
 
 interface ComponentCardProps {
   component: Doc<'components'>;
@@ -21,6 +22,7 @@ export const ComponentCard = ({ component }: ComponentCardProps) => {
   const content = Object.keys(component.content);
 
   const deleteComponent = useMutation(api.component.remove);
+  const { onOpen } = useComponentCreateModal();
 
   const onDeleteComponent = async () => {
     try {
@@ -96,6 +98,15 @@ export const ComponentCard = ({ component }: ComponentCardProps) => {
               size="sm"
               className="p-0"
               type="button"
+              onClick={() =>
+                onOpen(
+                  component.sectionId,
+                  component.pageId,
+                  component.type,
+                  true,
+                  component._id,
+                )
+              }
             >
               Edit
             </Button>
