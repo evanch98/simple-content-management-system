@@ -21,11 +21,12 @@ export interface FormProps {
   pageId: Id<'pages'>;
   sectionId: Id<'sections'>;
   projectId: Id<'projects'>;
+  isEditing?: boolean;
 }
 
 export const ComponentCreateModal = () => {
   const params = useParams();
-  const { isOpen, onClose, componentType, pageId, sectionId } =
+  const { isOpen, onClose, componentType, pageId, sectionId, isEditing } =
     useComponentCreateModal();
 
   let dialogContent;
@@ -37,6 +38,7 @@ export const ComponentCreateModal = () => {
           pageId={pageId!}
           sectionId={sectionId!}
           projectId={params.projectId as Id<'projects'>}
+          isEditing={isEditing}
         />
       );
       break;
