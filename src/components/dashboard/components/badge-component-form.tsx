@@ -27,9 +27,11 @@ export const BadgeComponentForm = ({
   pageId,
   sectionId,
   projectId,
+  isEditing,
 }: FormProps) => {
-  const { onClose } = useComponentCreateModal();
-  const createButton = useMutation(api.component.create);
+  const { onClose, componentId } = useComponentCreateModal();
+  const createBadge = useMutation(api.component.create);
+  const updateBadge = useMutation(api.component.update);
 
   const form = useForm<z.infer<typeof badgeFormSchema>>({
     resolver: zodResolver(badgeFormSchema),
@@ -40,18 +42,32 @@ export const BadgeComponentForm = ({
 
   const onSubmit = async (values: z.infer<typeof badgeFormSchema>) => {
     try {
-      await createButton({
-        sectionId,
-        pageId,
-        projectId,
-        type: 'Badge',
-        content: {
-          content: values.content,
-        },
-      });
+      isEditing
+        ? await updateBadge({
+            id: componentId!,
+            sectionId,
+            pageId,
+            projectId,
+            content: {
+              content: values.content,
+            },
+          })
+        : await createBadge({
+            sectionId,
+            pageId,
+            projectId,
+            type: 'Badge',
+            content: {
+              content: values.content,
+            },
+          });
       form.reset();
       onClose();
-      toast('Successfully created a badge component.');
+      toast(
+        isEditing
+          ? 'Successfully updated the badge component.'
+          : 'Successfully created a badge component.',
+      );
     } catch (error) {
       toast('Something went wrong! Please try again.');
     }
@@ -91,7 +107,7 @@ export const BadgeComponentForm = ({
           disabled={form.formState.isSubmitting}
           onClick={form.handleSubmit(onSubmit)}
         >
-          Create
+          {isEditing ? 'Save' : 'Create'}
         </Button>
       </div>
     </div>
