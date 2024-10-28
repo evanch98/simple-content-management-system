@@ -1,13 +1,13 @@
 import { httpRouter } from 'convex/server';
 import { auth } from './auth';
-import { publicGet } from './project';
+import { get } from './public';
 
 const http = httpRouter();
 
 http.route({
   path: '/project',
   method: 'GET',
-  handler: publicGet,
+  handler: get,
 });
 
 auth.addHttpRoutes(http);
