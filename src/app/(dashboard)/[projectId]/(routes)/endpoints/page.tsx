@@ -58,7 +58,7 @@ const EndpointsPage = () => {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="flex h-full w-full flex-col gap-y-4 py-4">
+          <div className="flex h-full w-full flex-col gap-y-4">
             ENDPOINTS
           </div>
         </CardContent>
