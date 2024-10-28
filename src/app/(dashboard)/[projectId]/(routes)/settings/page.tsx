@@ -76,7 +76,7 @@ const SettingsPage = () => {
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbPage>Media</BreadcrumbPage>
+            <BreadcrumbPage>Settings</BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
