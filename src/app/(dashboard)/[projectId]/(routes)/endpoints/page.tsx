@@ -20,6 +20,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import { ApiAlert } from '@/components/dashboard/api-alert';
 
 const EndpointsPage = () => {
   const params = useParams();
@@ -59,7 +60,12 @@ const EndpointsPage = () => {
         </CardHeader>
         <CardContent>
           <div className="flex h-full w-full flex-col gap-y-4">
-            ENDPOINTS
+            <div className="flex flex-col gap-y-2">
+              <h1 className="text-sm font-semibold text-purple-600 dark:text-purple-300">
+                GET
+              </h1>
+              <ApiAlert projectId={project._id} />
+            </div>
           </div>
         </CardContent>
       </Card>
