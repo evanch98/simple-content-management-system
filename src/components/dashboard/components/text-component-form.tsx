@@ -27,9 +27,11 @@ export const TextComponentForm = ({
   pageId,
   sectionId,
   projectId,
+  isEditing,
 }: FormProps) => {
-  const { onClose } = useComponentCreateModal();
-  const createButton = useMutation(api.component.create);
+  const { onClose, componentId } = useComponentCreateModal();
+  const createText = useMutation(api.component.create);
+  const updateText = useMutation(api.component.update);
 
   const form = useForm<z.infer<typeof textFormSchema>>({
     resolver: zodResolver(textFormSchema),
@@ -40,18 +42,32 @@ export const TextComponentForm = ({
 
   const onSubmit = async (values: z.infer<typeof textFormSchema>) => {
     try {
-      await createButton({
-        sectionId,
-        pageId,
-        projectId,
-        type: 'Text',
-        content: {
-          content: values.text,
-        },
-      });
+      isEditing
+        ? await updateText({
+            id: componentId!,
+            sectionId,
+            pageId,
+            projectId,
+            content: {
+              content: values.text,
+            },
+          })
+        : await createText({
+            sectionId,
+            pageId,
+            projectId,
+            type: 'Text',
+            content: {
+              content: values.text,
+            },
+          });
       form.reset();
       onClose();
-      toast('Successfully created a text component.');
+      toast(
+        isEditing
+          ? 'Successfully updated the text component.'
+          : 'Successfully created a text component.',
+      );
     } catch (error) {
       toast('Something went wrong! Please try again.');
     }
@@ -91,7 +107,7 @@ export const TextComponentForm = ({
           disabled={form.formState.isSubmitting}
           onClick={form.handleSubmit(onSubmit)}
         >
-          Create
+          {isEditing ? 'Save' : 'Create'}
         </Button>
       </div>
     </div>

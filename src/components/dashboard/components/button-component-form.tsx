@@ -29,9 +29,11 @@ export const ButtonComponentForm = ({
   pageId,
   sectionId,
   projectId,
+  isEditing,
 }: FormProps) => {
-  const { onClose } = useComponentCreateModal();
+  const { onClose, componentId } = useComponentCreateModal();
   const createButton = useMutation(api.component.create);
+  const updateButton = useMutation(api.component.update);
 
   const form = useForm<z.infer<typeof buttonFormSchema>>({
     resolver: zodResolver(buttonFormSchema),
@@ -43,19 +45,34 @@ export const ButtonComponentForm = ({
 
   const onSubmit = async (values: z.infer<typeof buttonFormSchema>) => {
     try {
-      await createButton({
-        sectionId,
-        pageId,
-        projectId,
-        type: 'Button',
-        content: {
-          content: values.content,
-          href: values.href || '',
-        },
-      });
+      isEditing
+        ? await updateButton({
+            id: componentId!,
+            sectionId,
+            pageId,
+            projectId,
+            content: {
+              content: values.content,
+              href: values.href || '',
+            },
+          })
+        : await createButton({
+            sectionId,
+            pageId,
+            projectId,
+            type: 'Button',
+            content: {
+              content: values.content,
+              href: values.href || '',
+            },
+          });
       form.reset();
       onClose();
-      toast('Successfully created a button component.');
+      toast(
+        isEditing
+          ? 'Successfully updated the button component.'
+          : 'Successfully created a button component.',
+      );
     } catch (error) {
       toast('Something went wrong! Please try again.');
     }
@@ -110,7 +127,7 @@ export const ButtonComponentForm = ({
           disabled={form.formState.isSubmitting}
           onClick={form.handleSubmit(onSubmit)}
         >
-          Create
+          {isEditing ? 'Save' : 'Create'}
         </Button>
       </div>
     </div>

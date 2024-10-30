@@ -39,9 +39,11 @@ export const CardComponentForm = ({
   pageId,
   sectionId,
   projectId,
+  isEditing,
 }: FormProps) => {
-  const { onClose } = useComponentCreateModal();
+  const { onClose, componentId } = useComponentCreateModal();
   const createCard = useMutation(api.component.create);
+  const updateCard = useMutation(api.component.update);
 
   const form = useForm<z.infer<typeof cardFormSchema>>({
     resolver: zodResolver(cardFormSchema),
@@ -94,23 +96,42 @@ export const CardComponentForm = ({
 
   const onSubmit = async (values: z.infer<typeof cardFormSchema>) => {
     try {
-      await createCard({
-        sectionId,
-        pageId,
-        projectId,
-        type: 'Card',
-        content: {
-          title: values.title,
-          description: values.description || '',
-          content: values.content || '',
-          imgUrls: values.imgUrls || [],
-          buttons: values.buttons || [],
-          badges: values.badges || [],
-        },
-      });
+      isEditing
+        ? await updateCard({
+            id: componentId!,
+            sectionId,
+            pageId,
+            projectId,
+            content: {
+              title: values.title,
+              description: values.description || '',
+              content: values.content || '',
+              imgUrls: values.imgUrls || [],
+              buttons: values.buttons || [],
+              badges: values.badges || [],
+            },
+          })
+        : await createCard({
+            sectionId,
+            pageId,
+            projectId,
+            type: 'Card',
+            content: {
+              title: values.title,
+              description: values.description || '',
+              content: values.content || '',
+              imgUrls: values.imgUrls || [],
+              buttons: values.buttons || [],
+              badges: values.badges || [],
+            },
+          });
       form.reset();
       onClose();
-      toast('Successfully created a card component.');
+      toast(
+        isEditing
+          ? 'Successfully updated the card component.'
+          : 'Successfully created a card component.',
+      );
     } catch (error) {
       toast('Something went wrong! Please try again.');
     }
@@ -322,7 +343,7 @@ export const CardComponentForm = ({
           disabled={form.formState.isSubmitting}
           onClick={form.handleSubmit(onSubmit)}
         >
-          Create
+          {isEditing ? 'Save' : 'Create'}
         </Button>
       </div>
     </div>

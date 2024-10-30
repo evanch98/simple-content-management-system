@@ -25,9 +25,11 @@ export const ImageComponentForm = ({
   pageId,
   sectionId,
   projectId,
+  isEditing,
 }: FormProps) => {
-  const { onClose } = useComponentCreateModal();
-  const createButton = useMutation(api.component.create);
+  const { onClose, componentId } = useComponentCreateModal();
+  const createImage = useMutation(api.component.create);
+  const updateImage = useMutation(api.component.update);
 
   const form = useForm<z.infer<typeof imageFormSchema>>({
     resolver: zodResolver(imageFormSchema),
@@ -38,18 +40,32 @@ export const ImageComponentForm = ({
 
   const onSubmit = async (values: z.infer<typeof imageFormSchema>) => {
     try {
-      await createButton({
-        sectionId,
-        pageId,
-        projectId,
-        type: 'Image',
-        content: {
-          url: values.url,
-        },
-      });
+      isEditing
+        ? await updateImage({
+            id: componentId!,
+            sectionId,
+            pageId,
+            projectId,
+            content: {
+              url: values.url,
+            },
+          })
+        : await createImage({
+            sectionId,
+            pageId,
+            projectId,
+            type: 'Image',
+            content: {
+              url: values.url,
+            },
+          });
       form.reset();
       onClose();
-      toast('Successfully created a title component.');
+      toast(
+        isEditing
+          ? 'Successfully updated the image component.'
+          : 'Successfully created an image component.',
+      );
     } catch (error) {
       toast('Something went wrong! Please try again.');
     }
@@ -89,7 +105,7 @@ export const ImageComponentForm = ({
           disabled={form.formState.isSubmitting}
           onClick={form.handleSubmit(onSubmit)}
         >
-          Create
+          {isEditing ? 'Save' : 'Create'}
         </Button>
       </div>
     </div>

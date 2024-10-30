@@ -19,16 +19,18 @@ import { FormProps } from '@/components/modals/component-create-modal';
 
 export const linkFormSchema = z.object({
   title: z.string().optional(),
-  href: z.string(),
+  href: z.string().min(1, { message: 'Required' }),
 });
 
 export const LinkComponentForm = ({
   pageId,
   sectionId,
   projectId,
+  isEditing,
 }: FormProps) => {
-  const { onClose } = useComponentCreateModal();
+  const { onClose, componentId } = useComponentCreateModal();
   const createLink = useMutation(api.component.create);
+  const updateLink = useMutation(api.component.update);
 
   const form = useForm<z.infer<typeof linkFormSchema>>({
     resolver: zodResolver(linkFormSchema),
@@ -40,19 +42,34 @@ export const LinkComponentForm = ({
 
   const onSubmit = async (values: z.infer<typeof linkFormSchema>) => {
     try {
-      await createLink({
-        sectionId,
-        pageId,
-        projectId,
-        type: 'Link',
-        content: {
-          title: values.title || '',
-          href: values.href,
-        },
-      });
+      isEditing
+        ? await updateLink({
+            id: componentId!,
+            sectionId,
+            pageId,
+            projectId,
+            content: {
+              title: values.title || '',
+              href: values.href,
+            },
+          })
+        : await createLink({
+            sectionId,
+            pageId,
+            projectId,
+            type: 'Link',
+            content: {
+              title: values.title || '',
+              href: values.href,
+            },
+          });
       form.reset();
       onClose();
-      toast('Successfully created a link component.');
+      toast(
+        isEditing
+          ? 'Successfully update the link component.'
+          : 'Successfully created a link component.',
+      );
     } catch (error) {
       toast('Something went wrong! Please try again.');
     }
@@ -90,6 +107,7 @@ export const LinkComponentForm = ({
                     {...field}
                   />
                 </FormControl>
+                <FormMessage />
               </FormItem>
             )}
           />
@@ -107,7 +125,7 @@ export const LinkComponentForm = ({
           disabled={form.formState.isSubmitting}
           onClick={form.handleSubmit(onSubmit)}
         >
-          Create
+          {isEditing ? 'Save' : 'Create'}
         </Button>
       </div>
     </div>

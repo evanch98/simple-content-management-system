@@ -48,6 +48,7 @@ export const ComponentCreateModal = () => {
           pageId={pageId!}
           sectionId={sectionId!}
           projectId={params.projectId as Id<'projects'>}
+          isEditing={isEditing}
         />
       );
       break;
@@ -57,6 +58,7 @@ export const ComponentCreateModal = () => {
           pageId={pageId!}
           sectionId={sectionId!}
           projectId={params.projectId as Id<'projects'>}
+          isEditing={isEditing}
         />
       );
       break;
@@ -66,6 +68,7 @@ export const ComponentCreateModal = () => {
           pageId={pageId!}
           sectionId={sectionId!}
           projectId={params.projectId as Id<'projects'>}
+          isEditing={isEditing}
         />
       );
       break;
@@ -75,6 +78,7 @@ export const ComponentCreateModal = () => {
           pageId={pageId!}
           sectionId={sectionId!}
           projectId={params.projectId as Id<'projects'>}
+          isEditing={isEditing}
         />
       );
       break;
@@ -84,6 +88,7 @@ export const ComponentCreateModal = () => {
           pageId={pageId!}
           sectionId={sectionId!}
           projectId={params.projectId as Id<'projects'>}
+          isEditing={isEditing}
         />
       );
       break;
@@ -93,6 +98,7 @@ export const ComponentCreateModal = () => {
           pageId={pageId!}
           sectionId={sectionId!}
           projectId={params.projectId as Id<'projects'>}
+          isEditing={isEditing}
         />
       );
       break;
@@ -102,6 +108,7 @@ export const ComponentCreateModal = () => {
           pageId={pageId!}
           sectionId={sectionId!}
           projectId={params.projectId as Id<'projects'>}
+          isEditing={isEditing}
         />
       );
       break;
@@ -111,6 +118,7 @@ export const ComponentCreateModal = () => {
           pageId={pageId!}
           sectionId={sectionId!}
           projectId={params.projectId as Id<'projects'>}
+          isEditing={isEditing}
         />
       );
   }

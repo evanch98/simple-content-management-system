@@ -27,9 +27,11 @@ export const TitleComponentForm = ({
   pageId,
   sectionId,
   projectId,
+  isEditing,
 }: FormProps) => {
-  const { onClose } = useComponentCreateModal();
-  const createButton = useMutation(api.component.create);
+  const { onClose, componentId } = useComponentCreateModal();
+  const createTitle = useMutation(api.component.create);
+  const updateTitle = useMutation(api.component.update);
 
   const form = useForm<z.infer<typeof titleFormSchema>>({
     resolver: zodResolver(titleFormSchema),
@@ -40,18 +42,32 @@ export const TitleComponentForm = ({
 
   const onSubmit = async (values: z.infer<typeof titleFormSchema>) => {
     try {
-      await createButton({
-        sectionId,
-        pageId,
-        projectId,
-        type: 'Title',
-        content: {
-          content: values.title,
-        },
-      });
+      isEditing
+        ? await updateTitle({
+            id: componentId!,
+            sectionId,
+            pageId,
+            projectId,
+            content: {
+              content: values.title,
+            },
+          })
+        : await createTitle({
+            sectionId,
+            pageId,
+            projectId,
+            type: 'Title',
+            content: {
+              content: values.title,
+            },
+          });
       form.reset();
       onClose();
-      toast('Successfully created a title component.');
+      toast(
+        isEditing
+          ? 'Successfully updated the title component.'
+          : 'Successfully created a title component.',
+      );
     } catch (error) {
       toast('Something went wrong! Please try again.');
     }
@@ -91,7 +107,7 @@ export const TitleComponentForm = ({
           disabled={form.formState.isSubmitting}
           onClick={form.handleSubmit(onSubmit)}
         >
-          Create
+          {isEditing ? 'Save' : 'Create'}
         </Button>
       </div>
     </div>

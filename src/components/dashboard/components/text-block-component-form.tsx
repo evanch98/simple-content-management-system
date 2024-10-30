@@ -27,9 +27,11 @@ export const TextBlockComponentForm = ({
   pageId,
   sectionId,
   projectId,
+  isEditing,
 }: FormProps) => {
-  const { onClose } = useComponentCreateModal();
-  const createButton = useMutation(api.component.create);
+  const { onClose, componentId } = useComponentCreateModal();
+  const createTextBlock = useMutation(api.component.create);
+  const updateTextBlock = useMutation(api.component.update);
 
   const form = useForm<z.infer<typeof textBlockFormSchema>>({
     resolver: zodResolver(textBlockFormSchema),
@@ -41,19 +43,34 @@ export const TextBlockComponentForm = ({
 
   const onSubmit = async (values: z.infer<typeof textBlockFormSchema>) => {
     try {
-      await createButton({
-        sectionId,
-        pageId,
-        projectId,
-        type: 'TextBlock',
-        content: {
-          text: values.text,
-          description: values.description || '',
-        },
-      });
+      isEditing
+        ? await updateTextBlock({
+            id: componentId!,
+            sectionId,
+            pageId,
+            projectId,
+            content: {
+              text: values.text,
+              description: values.description || '',
+            },
+          })
+        : await createTextBlock({
+            sectionId,
+            pageId,
+            projectId,
+            type: 'TextBlock',
+            content: {
+              text: values.text,
+              description: values.description || '',
+            },
+          });
       form.reset();
       onClose();
-      toast('Successfully created a title component.');
+      toast(
+        isEditing
+          ? 'Successfully updated the text block component.'
+          : 'Successfully created a text block component.',
+      );
     } catch (error) {
       toast('Something went wrong! Please try again.');
     }
@@ -71,7 +88,7 @@ export const TextBlockComponentForm = ({
                 <FormLabel>Text</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="Section title"
+                    placeholder="Title"
                     {...field}
                   />
                 </FormControl>
@@ -87,7 +104,7 @@ export const TextBlockComponentForm = ({
                 <FormLabel>Description</FormLabel>
                 <FormControl>
                   <Textarea
-                    placeholder="Section title"
+                    placeholder="Description"
                     rows={3}
                     {...field}
                   />
@@ -110,7 +127,7 @@ export const TextBlockComponentForm = ({
           disabled={form.formState.isSubmitting}
           onClick={form.handleSubmit(onSubmit)}
         >
-          Create
+          {isEditing ? 'Save' : 'Create'}
         </Button>
       </div>
     </div>
