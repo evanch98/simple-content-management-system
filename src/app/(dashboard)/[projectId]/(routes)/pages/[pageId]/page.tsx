@@ -143,11 +143,11 @@ const Page = () => {
         </div>
         <Separator />
         <div className="flex h-full w-full items-start gap-x-4">
-          <div className="flex h-full w-[35%] flex-col gap-y-2 pt-[24px]">
+          <div className="flex h-full w-full flex-col gap-y-2 pt-[24px] lg:w-[35%]">
             <form className="grid w-full items-start gap-1">
               <fieldset className="flex flex-col gap-1 rounded-lg border p-4 pb-2">
                 <legend className="-ml-1 text-xs font-medium">Sections</legend>
-                <div className="flex gap-2">
+                <div className="flex flex-col items-center gap-2 lg:flex-row lg:items-start">
                   <SectionSwitcher
                     sections={sections}
                     currentSectionIndex={currentSectionIndex}
@@ -195,7 +195,7 @@ const Page = () => {
               </fieldset>
             </form>
             <form className="grid h-full w-full items-start gap-1">
-              <fieldset className="flex h-full flex-col gap-2 rounded-lg border px-4 py-1">
+              <fieldset className="flex h-full w-full flex-col gap-2 rounded-lg border px-4 py-1">
                 <legend className="-ml-1 text-xs font-medium">
                   Components
                 </legend>
