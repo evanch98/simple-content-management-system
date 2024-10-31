@@ -12,7 +12,7 @@ interface ApiAlertProps {
 
 export const ApiAlert = ({ projectId }: ApiAlertProps) => {
   const [isCopied, setIsCopied] = useState(false);
-  const url = `https://enchanted-newt-444.convex.site/project?projectId=${projectId}`;
+  const url = `https://steady-kudu-505.convex.site/project?projectId=${projectId}`;
 
   const onCopy = () => {
     setIsCopied(true);
