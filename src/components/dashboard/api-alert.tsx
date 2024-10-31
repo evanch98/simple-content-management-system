@@ -1,4 +1,4 @@
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Alert, AlertTitle } from '@/components/ui/alert';
 import { GeistMono } from 'geist/font/mono';
 import { useState } from 'react';
 import { TbApi } from 'react-icons/tb';
@@ -12,7 +12,7 @@ interface ApiAlertProps {
 
 export const ApiAlert = ({ projectId }: ApiAlertProps) => {
   const [isCopied, setIsCopied] = useState(false);
-  const url = `https://enchanted-newt-444.convex.site/project?projectId=${projectId}`;
+  const url = `https://steady-kudu-505.convex.site/project?projectId=${projectId}`;
 
   const onCopy = () => {
     setIsCopied(true);
@@ -26,7 +26,7 @@ export const ApiAlert = ({ projectId }: ApiAlertProps) => {
   return (
     <Alert className={GeistMono.className}>
       <AlertTitle className="flex items-center justify-between">
-        <div className="flex items-center w-full">
+        <div className="flex w-full items-center">
           <TbApi className="mr-2 size-5 flex-shrink-0" />
           <p className="truncate text-xs font-semibold">{url}</p>
         </div>
