@@ -6,6 +6,9 @@ const nextConfig = {
       {
         hostname: 'enchanted-newt-444.convex.cloud',
       },
+      {
+        hostname: 'steady-kudu-505.convex.cloud',
+      },
     ],
   },
 };
